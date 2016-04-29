@@ -1,75 +1,68 @@
-'use strict';
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var moment= require("moment");
+var routes = require('./app/controllers/Index');
+var dashboard=require('./app/controllers/Dashboard');
+var employee=require('./app/controllers/Employee');
 
-import path from 'path';
-import bodyParser from 'body-parser';
-import compress from 'compression';
-import cookieParser from 'cookie-parser';
-import express from 'express';
-import favicon from 'serve-favicon';
-import helmet from 'helmet';
-import mongoose from 'mongoose';
+var app = express();
 
-// BASIC CONFIG
-const config = {
-  // address of mongodb
-  db: process.env.MONGOURI || 'mongodb://localhost:27017/test',
-  // environment
-  env: process.env.NODE_ENV || 'development',
-  // port on which to listen
-  port: 5000,
-  // path to root directory of this app
-  root: path.normalize(__dirname)
-};
-
-// EXPRESS SET-UP
-// create app
-const app = express();
-// use jade and set views and static directories
+app.locals.moment= moment;
+// view engine setup
+app.set('views', path.join(__dirname, './app/views'));
 app.set('view engine', 'jade');
-app.set('views', path.join(config.root, 'app/views'));
-app.use(express.static(path.join(config.root, 'static')));
-//add middlewares
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(compress());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(favicon(path.join(config.root, 'static/img/favicon.png')));
-app.use(helmet());
-// load all models
-require(path.join(config.root, 'app/models'));
-// load all controllers
-app.use('/', require(path.join(config.root, 'app/controllers')));
+app.use(express.static(path.join(__dirname, '/')));
+app.use(express.static(path.join(__dirname,"../bower_components")));
+
+app.use('/', routes);
+app.use("/employee",employee);
+app.use("/dashboard",dashboard);
+
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-// general errors
-app.use((err, req, res, next) => {
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: config.env === 'development' ? err : {}
+    error: {}
   });
 });
 
-// MONGOOSE SET-UP
-mongoose.connect(config.db);
-const db = mongoose.connection;
-db.on('error', () => {
-  throw new Error(`unable to connect to database at ${config.db}`);
+var server =  app.listen(3000, function(){
+  console.log("Listening");
 });
 
-// START AND STOP
-const server = app.listen(config.port, () => {
-  console.log(`listening on port ${config.port}`);
-});
-process.on('SIGINT', () => {
-  console.log('\nshutting down!');
-  db.close();
-  server.close();
-  process.exit();
-});
+
+module.exports = app;

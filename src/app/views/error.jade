@@ -1,11 +1,6 @@
-extends layout
+extends shared/layout
 
-block head
-  title= 'error'
-  link(rel='stylesheet', href='/css/error.css')
-
-block body
-  h1
-    span.red= (error.status || 500) + ' Error! '
-    = message
-  pre= error.stack
+block content
+  h1= message
+  h2= error.status
+  pre #{error.stack}

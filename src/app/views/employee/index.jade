@@ -1,3 +1,34 @@
-//
-   Created by mario on 4/14/2016.
+//Created by mario on 4/21/2016.
+extends ../shared/layout
 
+block content
+    a.waves-effect.waves-light.btn(href="/create") Add Employee
+        i.material-icons.left perm_identity
+    table.bordered.highlight.responsive-table.centered
+        thead
+            tr
+                th Name
+                th Last Name
+                th Second Last Name
+                th RFC
+                th Social Security Number
+                th Daily Salary
+                th Hiring Date
+                th Working Days
+        tbody
+            each employee in employees
+                tr
+                    td !{employee.name}
+                    td !{employee.lastName}
+                    td !{employee.secondLastName}
+                    td !{employee.RFC}
+                    td !{employee.socialSecurityNumber}
+                    td !{employee.dailySalary}
+                    td #{moment(employee.hiringDate).format("DD/MM/YYYY")}
+                    td !{employee.workingDays}
+                    td
+                        a(href="/employee/edit/#{employee._id}" )
+                            i.material-icons.delete mode_edit
+                    td
+                        a(href="/employee/delete/#{employee._id}" )
+                            i.material-icons.delete delete

@@ -4,7 +4,7 @@
 //Imports
 "use strict";
 var mongoose = require("mongoose");
-var Schemes= require("./../Schemes");
+var Schemes= require("./Schemes");
 
 //Database Connection
 
@@ -15,7 +15,7 @@ var connection = mongoose.createConnection(databaseURL);
 var userDAO= module.exports={};
 var UserModel = connection.model("User", Schemes.User);
 
-userDAO.validateUser = function (name, password,callback){
+userDAO.findUserPassword = function (name, password, callback){
   "use strict";
   UserModel.findOne({name:name,password:password}, function(err,user){
     if (!err && user ){

@@ -18,7 +18,8 @@ Models.Employee =  new Schema({
   RFC: String,
   socialSecurityNumber: String,
   dailySalary: Number,
-  hiringDate: Date
+  hiringDate: Date,
+  workingDays:Number
 });
 
 

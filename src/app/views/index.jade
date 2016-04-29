@@ -1,3 +1,21 @@
-//
-   Created by mario on 4/14/2016.
+extends shared/layout
+
+block content
+  .container
+    .row
+      .col.l6.offset-l3
+        form(class="s12" action="/" method="post")
+          .row
+            .input-field.col.s12
+              input(id="name" name="name" type="text" class="validate")
+              label(for="name") Name
+          .row
+            .input-field.col.s12
+              input(id="password" name="password" type="password" class="validate")
+              label(for="password") Password
+          .row
+            .input-field.col.s12
+              .valign-wrapper
+                button(class="btn waves-effect waves-light valign" type="submit" name="action") Login
+                  i(class="material-icons right") send
 

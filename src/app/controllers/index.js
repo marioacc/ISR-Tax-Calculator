@@ -1,33 +1,33 @@
-'use strict';
-// this controller is meant to set up routes from all other controllers
-// it also sets up basic express routes
+var express = require('express');
+var router = express.Router();
+var assert= require("assert");
+var UsersDAO = require("../models/dao/UsersDAO");
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  if(req.cookies.isSigned){
+    res.redirect('/dashboard');
+  }else{
+    res.render("index",{});
+  }
 
-import express from 'express';
-import mongoose from 'mongoose';
-
-// load models
-const Movie = mongoose.model('Movie');
-
-// create router
-const router = express.Router();
-// load other controllers
-router.use('/extras', require('./extras'));
-
-// set basic routes
-router.get('/', (req, res, next) => {
-  res.render('index', {
-    title: 'isrcalculator'
-  });
-});
-router.get('/movies', (req, res, next) => {
-  Movie.find((err, movies) => {
-    if (err) return next(err);
-    res.render('movies', {
-      title: 'Movies!',
-      movies
-    });
-  });
 });
 
-// export router
+router.post("/", function (req, res, next){
+  "use strict";
+  var name= req.body.name;
+  var password = req.body.password;
+  UsersDAO.findUserPassword(name,password,function(user){
+    "use strict";
+    if(user){
+      res.cookie("isSigned", true );
+      res.redirect('/dashboard');
+    }else{
+      res.redirect("/");
+    }
+  });
+});
+
+
+
+
 module.exports = router;

@@ -1,7 +1,25 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title= "ISR Tax Calculator"
+    link(rel='stylesheet', href='/Materialize/dist/css/materialize.min.css')
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+
   body
-    block content
+    .navbar-fixed
+      nav.blue
+        .nav-wrapper
+          a(href="#" class="brand-logo center") ISR Tax Calculator
+    .section
+      block content
+    script(src="/jquery/dist/jquery.min.js")
+    script(src="/Materialize/dist/js/materialize.min.js")
+    block script
+    script.
+      $('.datepicker').pickadate({
+        selectMonths: false, // Creates a dropdown to control month
+        selectYears: 15 // Creates a dropdown of 15 years to control year
+      });
+      $(document).ready(function () {
+        $('select').material_select();
+      });

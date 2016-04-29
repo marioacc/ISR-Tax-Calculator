@@ -1,0 +1,51 @@
+//Created by mario on 4/21/2016.
+extends ../shared/layout
+block content
+    .row
+        form.col.s12(action="/employee/edit/#{employee._id}" method="post")
+            .row
+                .input-field.col.s6
+                    input(type="text" id="name" name="name" class="validate" value="#{employee.name}")
+                    label(for="name") Name
+                .input-field.col.s6
+                    input(type="text" id="lastName" name="lastName" value="#{employee.lastName}" class="validate")
+                    label(for="lastName") Last Name
+                .input-field.col.s6
+                    input(type="text" id="secondLastName" name="secondLastName" value="#{employee.secondLastName}" class="validate")
+                    label(for="secondLastName") Second Last Name
+                .input-field.col.s6
+                    input(type="text" id="RFC" name="RFC" value="#{employee.RFC}" class="validate")
+                    label(for="RFC") RFC
+                .input-field.col.s6
+                    input(type="text" id="socialSecurityNumber" name="socialSecurityNumber" value="#{employee.socialSecurityNumber}" class="validate")
+                    label(for="socialSecurityNumber") Social Security Number
+                .input-field.col.s6
+                    input(type="text" id="dailySalary" name="dailySalary" value="#{employee.dailySalary}" class="validate")
+                    label(for="dailySalary") Daily Salary
+                .input-field.col.s6
+                    input(type="date"  id="hiringDate" name="hiringDate" value="#{employee.hiringDate}" class=" datepicker validate")
+                    label(for="hiringDate") Hiring Date
+                .input-field.col.s6
+                    input(type="text" id="workingDays" name="workingDays" value="#{employee.workingDays}" class="validate")
+                    label(for="workingDays") Working Days
+                //.input-field.col.s6
+                //    select(required name="department")
+                //        option(value="" class="disabled selected") Seleccione un departamento
+                //        option(value="Recursos Humanos") Recursos Humanos
+                .input-field.col.s12
+                    button(class="btn waves-effect waves-light" type="submit" name="action") Update Employee
+                        i(class="material-icons right") send
+block script
+    script.
+        var $input = $('.datepicker').pickadate()
+        // Use the picker object directly.
+        var picker = $input.pickadate('picker');
+        picker.set('select', "#{moment(employee.hiringDate).format('DD-MM-YYYY').toString()}", {format: 'yyyy-mm-dd'})
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+
+
+
+
+
