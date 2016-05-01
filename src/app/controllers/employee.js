@@ -21,6 +21,15 @@ router.get("/",function(req,res,next){
 });
 router.get("/delete/:id",function(req,res,next){
   "use strict";
+  EmployeesDAO.findById(req.params.id, function(err, employee){
+    res.render("employee/delete",{
+      employee:employee});
+  });
+
+});
+
+router.post("/delete/:id",function(req,res,next){
+  "use strict";
   EmployeesDAO.removeById(req.params.id,function(error,employees){
     if (error){
       console.log(error);

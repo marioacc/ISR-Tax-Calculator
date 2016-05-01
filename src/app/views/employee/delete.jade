@@ -1,0 +1,36 @@
+//
+   Created by mario on 4/30/2016.
+//Created by mario on 4/21/2016.
+extends ../shared/layout
+
+block content
+    h4 Confirm Employee Removal
+    table.bordered.highlight.responsive-table.centered
+        thead
+            tr
+                th Name
+                th Last Name
+                th Second Last Name
+                th RFC
+                th Social Security Number
+                th Daily Salary
+                th Hiring Date
+                th Working Days
+        tbody
+            tr
+                td !{employee.name}
+                td !{employee.lastName}
+                td !{employee.secondLastName}
+                td !{employee.RFC}
+                td !{employee.socialSecurityNumber}
+                td !{employee.dailySalary}
+                td #{moment(employee.hiringDate).format("DD/MM/YYYY")}
+                td !{employee.workingDays}
+    form(action="/employee/delete/#{employee._id}" method="post")
+        button.waves-effect.waves-light.btn( type="submit") Delete Employee
+            i.material-icons.left delete
+
+    a.waves-effect.waves-light.btn(href="/create") Go Back
+        i.material-icons.left open_in_new
+
+
