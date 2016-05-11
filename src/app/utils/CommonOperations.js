@@ -7,22 +7,46 @@ var integrationFactors=[1.0452,1.0465,1.0479,1.0493,1.0506,1.0520,1.0534,1.0547,
 var SMGVDF =73.04;
 var treeSMGVDF=3*SMGVDF;
 
+var calculateSDI=function(SD, antiquity){
+  "use strict";
+  var antiquityYears = Math.floor(antiquity);
+  var integrationFactor;
+  if (antiquityYears===0){
+    return SD*integrationFactors[0];
+  }else if (antiquity < 5){
+    return SD*integrationFactors[antiquity-1];
+  }else{
+    return SD*integrationFactors[antiquity-1+Math.floor(antiquity/5)];
+  }
+}
 module.exports={
-  calculateSBC:function(SD,antiquity){
+  calculateISR:function(workingDays,dailySalary,antiquity,absences){
     "use strict";
-    var antiquityYears = Math.floor(antiquity);
-    var integrationFactor;
-    if (antiquityYears===0){
-      return SD*integrationFactors[0];
-    }else if (antiquity < 5){
-      return SD*integrationFactors[antiquity-1];
-    }else{
-      return SD*integrationFactors[antiquity-1+Math.floor(antiquity/5)];
+    var periodIncome = dailySalary*(workingDays-absences);
+    var isrTableToUse;
+    var variableFee;
+    var ISRTax;
+    switch (workingDays){
+      case 7:
+        isrTableToUse=ISRTableWeekly;
+        break;
+      case 15:
+        isrTableToUse=ISRTableBiweekly;
+        break;
+      default:
+        isrTableToUse=ISRTableMonthly;
+        break;
     }
-  },
-  calculateISR:function(){
-    "use strict";
+    var ISRDataForCalculations =isrTableToUse.find(function(element,index,isrTable){
+      var upperLimit = element.upperLimit || periodIncome*2;
+      return element.lowerLimit<= periodIncome && periodIncome <= upperLimit ;
+    });
+    variableFee = (periodIncome-ISRDataForCalculations.lowerLimit)*
+      (ISRDataForCalculations.percentForLowerLimit/100);
 
+    ISRTax=variableFee+ISRDataForCalculations.fixedFee;
+
+    return ISRTax
   }
 
 };
@@ -42,56 +66,56 @@ var ISRTableWeekly=[
   },
   {
     "lowerLimit": 969.51,
-    "upperLimit": "1,703.80",
+    "upperLimit": 1703.80,
     "fixedFee": 56.91,
     "percentForLowerLimit": 10.88
   },
   {
-    "lowerLimit": "1,703.81",
-    "upperLimit": "1,980.58",
+    "lowerLimit": 1703.81,
+    "upperLimit": 1980.58,
     "fixedFee": 136.85,
     "percentForLowerLimit": 16
   },
   {
-    "lowerLimit": "1,980.59",
-    "upperLimit": "2,371.32",
+    "lowerLimit": 1980.59,
+    "upperLimit": 2371.32,
     "fixedFee": 181.09,
     "percentForLowerLimit": 17.92
   },
   {
-    "lowerLimit": "2,371.33",
-    "upperLimit": "4,782.61",
+    "lowerLimit": 2371.33,
+    "upperLimit": 4782.61,
     "fixedFee": 251.16,
     "percentForLowerLimit": 21.36
   },
   {
-    "lowerLimit": "4,782.62",
-    "upperLimit": "7,538.09",
+    "lowerLimit": 4782.62,
+    "upperLimit": 7538.09,
     "fixedFee": 766.15,
     "percentForLowerLimit": 23.52
   },
   {
-    "lowerLimit": "7,538.10",
-    "upperLimit": "14,391.44",
-    "fixedFee": "1,414.28",
+    "lowerLimit": 7538.10,
+    "upperLimit": 14391.44,
+    "fixedFee": 1414.28,
     "percentForLowerLimit": 30
   },
   {
-    "lowerLimit": "14,391.45",
-    "upperLimit": "19,188.61",
-    "fixedFee": "3,470.25",
+    "lowerLimit": 14391.45,
+    "upperLimit": 19188.61,
+    "fixedFee": 3470.25,
     "percentForLowerLimit": 32
   },
   {
-    "lowerLimit": "19,188.62",
-    "upperLimit": "57,565.76",
-    "fixedFee": "5,005.35",
+    "lowerLimit": 19188.62,
+    "upperLimit": 57565.76,
+    "fixedFee": 5005.35,
     "percentForLowerLimit": 34
   },
   {
-    "lowerLimit": "57,565.77",
+    "lowerLimit": 57565.77,
     "upperLimit": undefined,
-    "fixedFee": "18,053.63",
+    "fixedFee": 18053.63,
     "percentForLowerLimit": 35
   }
 ];
@@ -104,62 +128,62 @@ var ISRTableBiweekly=[
   },
   {
     "lowerLimit": 244.81,
-    "upperLimit": "2,077.50",
+    "upperLimit": 2077.50,
     "fixedFee": 4.65,
     "percentForLowerLimit": 6.4
   },
   {
-    "lowerLimit": "2,077.51",
-    "upperLimit": "3,651.00",
+    "lowerLimit": 2077.51,
+    "upperLimit": 3651.00,
     "fixedFee": 121.95,
     "percentForLowerLimit": 10.88
   },
   {
-    "lowerLimit": "3,651.01",
-    "upperLimit": "4,244.10",
+    "lowerLimit": 3651.01,
+    "upperLimit": 4244.10,
     "fixedFee": 293.25,
     "percentForLowerLimit": 16
   },
   {
-    "lowerLimit": "4,244.11",
-    "upperLimit": "5,081.40",
+    "lowerLimit": 4244.11,
+    "upperLimit": 5081.40,
     "fixedFee": 388.05,
     "percentForLowerLimit": 17.92
   },
   {
-    "lowerLimit": "5,081.41",
-    "upperLimit": "10,248.45",
+    "lowerLimit": 5081.41,
+    "upperLimit": 10248.45,
     "fixedFee": 538.2,
     "percentForLowerLimit": 21.36
   },
   {
-    "lowerLimit": "10,248.46",
-    "upperLimit": "16,153.05",
-    "fixedFee": "1,641.75",
+    "lowerLimit": 10248.46,
+    "upperLimit": 16153.05,
+    "fixedFee": 1641.75,
     "percentForLowerLimit": 23.52
   },
   {
-    "lowerLimit": "16,153.06",
-    "upperLimit": "30,838.80",
-    "fixedFee": "3,030.60",
+    "lowerLimit": 16153.06,
+    "upperLimit": 30838.80,
+    "fixedFee": 3030.60,
     "percentForLowerLimit": 30
   },
   {
-    "lowerLimit": "30,838.81",
-    "upperLimit": "41,118.45",
-    "fixedFee": "7,436.25",
+    "lowerLimit": 30838.81,
+    "upperLimit": 41118.45,
+    "fixedFee": 7436.25,
     "percentForLowerLimit": 32
   },
   {
-    "lowerLimit": "41,118.46",
-    "upperLimit": "123,355.20",
-    "fixedFee": "10,725.75",
+    "lowerLimit": 41118.46,
+    "upperLimit": 123355.20,
+    "fixedFee": 10725.75,
     "percentForLowerLimit": 34
   },
   {
-    "lowerLimit": "123,355.21",
+    "lowerLimit": 123355.21,
     "upperLimit": undefined,
-    "fixedFee": "38,686.35",
+    "fixedFee": 38686.35,
     "percentForLowerLimit": 35
   }
 ];
@@ -172,62 +196,62 @@ var ISRTableMonthly=[
   },
   {
     "lowerLimit": 496.08,
-    "upperLimit": "4,210.41",
+    "upperLimit": 4210.41,
     "fixedFee": 9.52,
     "percentForLowerLimit": 6.4
   },
   {
-    "lowerLimit": "4,210.42",
-    "upperLimit": "7,399.42",
+    "lowerLimit": 4210.42,
+    "upperLimit": 7399.42,
     "fixedFee": 247.24,
     "percentForLowerLimit": 10.88
   },
   {
-    "lowerLimit": "7,399.43",
-    "upperLimit": "8,601.50",
+    "lowerLimit": 7399.43,
+    "upperLimit": 8601.50,
     "fixedFee": 594.21,
     "percentForLowerLimit": 16
   },
   {
-    "lowerLimit": "8,601.51",
-    "upperLimit": "10,298.35",
+    "lowerLimit": 8601.51,
+    "upperLimit": 10298.35,
     "fixedFee": 786.54,
     "percentForLowerLimit": 17.92
   },
   {
-    "lowerLimit": "10,298.36",
-    "upperLimit": "20,770.29",
-    "fixedFee": "1,090.61",
+    "lowerLimit": 10298.36,
+    "upperLimit": 20770.29,
+    "fixedFee": 1090.61,
     "percentForLowerLimit": 21.36
   },
   {
-    "lowerLimit": "20,770.30",
-    "upperLimit": "32,736.83",
-    "fixedFee": "3,327.42",
+    "lowerLimit": 20770.30,
+    "upperLimit": 32736.83,
+    "fixedFee": 3327.42,
     "percentForLowerLimit": 23.52
   },
   {
-    "lowerLimit": "32,736.84",
-    "upperLimit": "62,500.00",
-    "fixedFee": "6,141.95",
+    "lowerLimit": 32736.84,
+    "upperLimit": 62500.00,
+    "fixedFee": 6141.95,
     "percentForLowerLimit": 30
   },
   {
-    "lowerLimit": "62,500.01",
-    "upperLimit": "83,333.33",
-    "fixedFee": "15,070.90",
+    "lowerLimit": 62500.01,
+    "upperLimit": 83333.33,
+    "fixedFee": 15070.90,
     "percentForLowerLimit": 32
   },
   {
-    "lowerLimit": "83,333.34",
-    "upperLimit": "250,000.00",
-    "fixedFee": "21,737.57",
+    "lowerLimit": 83333.34,
+    "upperLimit": 250000.00,
+    "fixedFee": 21737.57,
     "percentForLowerLimit": 34
   },
   {
-    "lowerLimit": "250,000.01",
+    "lowerLimit": 250000.01,
     "upperLimit": undefined,
-    "fixedFee": "78,404.23",
+    "fixedFee": 78404.23,
     "percentForLowerLimit": 35
   }
 ];
