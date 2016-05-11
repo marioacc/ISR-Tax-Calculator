@@ -6,6 +6,7 @@
 var integrationFactors=[1.0452,1.0465,1.0479,1.0493,1.0506,1.0520,1.0534,1.0547,1.0561,1.0575];
 var SMGVDF =73.04;
 var treeSMGVDF=3*SMGVDF;
+var top= 25*SMGVDF;
 
 var calculateSDI=function(SD, antiquity){
   "use strict";
@@ -20,6 +21,35 @@ var calculateSDI=function(SD, antiquity){
   }
 }
 module.exports={
+  calculateIMSS :function(dailySalary, workingDays,absences,antiquity){
+    "use strict";
+    var sicknessAndMaternity=0;
+    var pensionersAndBeneficiaries=0;
+    var sicknessAndMaternityMoney=0;
+    var disabilityAndLife=0;
+    var retirement=0;
+    var IMSSPayment=0;
+    var workedDays=workingDays-absences;
+    var SBC =calculateSDI(dailySalary,antiquity);
+    if(SBC >top){
+      SBC=top;
+    }
+    //Sickenss and Maternity
+    if(SBC>treeSMGVDF){
+      sicknessAndMaternity=(SBC-treeSMGVDF)*workedDays*0.004;
+    }
+    pensionersAndBeneficiaries=workedDays*SBC*0.00375;
+    sicknessAndMaternityMoney=workedDays*SBC*0.0025;
+    disabilityAndLife=workedDays*SBC*0.00625;
+    retirement=workedDays*SBC*0.01125;
+
+    IMSSPayment=sicknessAndMaternity+pensionersAndBeneficiaries+sicknessAndMaternityMoney+
+        disabilityAndLife+retirement;
+    return IMSSPayment;
+
+
+
+  },
   calculateISR:function(workingDays,dailySalary,antiquity,absences){
     "use strict";
     var periodIncome = dailySalary*(workingDays-absences);
