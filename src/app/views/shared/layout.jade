@@ -8,7 +8,11 @@ html
     .navbar-fixed
       nav.blue
         .nav-wrapper
-          a(href="#" class="brand-logo center") ISR Tax Calculator
+          a(href="/dashboard" class="brand-logo center") ISR Tax Calculator
+          ul.right.hide-on-med-and-down
+            li
+              a(href='/employee')
+                i.material-icons perm_identity
     .section
       block content
     script(src="/jquery/dist/jquery.min.js")

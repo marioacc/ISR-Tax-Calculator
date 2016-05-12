@@ -4,10 +4,10 @@ extends ../shared/layout
 block content
     .row
         if employees
-            form.col.s12()
+            form.col.s12(action="/dashboard" method="post")
                 .row
                     .input-field.col.s6
-                        select#employees.validate(name="employees")
+                        select#employees.validate(name="employee")
                             option(value="" disabled selected) Choose the employee
                             each employee in employees
                                 option(value="#{employee._id}") #{employee.name+" "+employee.lastName+" "+employee.secondLastName}

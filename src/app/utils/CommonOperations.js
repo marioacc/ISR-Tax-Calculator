@@ -12,14 +12,12 @@ var calculateSDI=function(SD, antiquity){
   "use strict";
   var antiquityYears = Math.floor(antiquity);
   var integrationFactor;
-  if (antiquityYears===0){
-    return SD*integrationFactors[0];
-  }else if (antiquity < 5){
-    return SD*integrationFactors[antiquity-1];
+  if (antiquity < 5){
+    return SD*integrationFactors[antiquityYears];
   }else{
-    return SD*integrationFactors[antiquity-1+Math.floor(antiquity/5)];
+    return SD*integrationFactors[3+Math.floor(antiquity/5)];
   }
-}
+};
 module.exports={
   calculateIMSS :function(dailySalary, workingDays,absences,antiquity){
     "use strict";
