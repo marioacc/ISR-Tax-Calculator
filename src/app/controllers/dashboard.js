@@ -6,6 +6,7 @@ var router = express.Router();
 var assert= require("assert");
 var employeesDAO= require("../models/dao/EmployeesDAO");
 var commonOperations = require("../utils/CommonOperations");
+var moment= require("moment");
 
 router.get("/",function(req,res,next){
   "use strict";
@@ -18,11 +19,17 @@ router.get("/",function(req,res,next){
   });
 });
 
-router.get("/calculate",function(req,res,next){
+router.post("/",function(req,res,next){
   "use strict";
   var employeeId=req.body.employee;
   var absences= req.body.absences;
-  
+  employeesDAO.findById(employeeId,function (error, employee){
+    if(error) res.send(error);
+    var employeeAntiquity= (moment().subtract(employee.hiringDate.getFullYear(),"years")).year() ;
+    var isr =commonOperations.calculateISR(employee.workingDays,employee.dailySalary,employeeAntiquity,absences);
+    var imss =commonOperations.calculateIMSS(employee.dailySalary,employee.workingDays,absences,employeeAntiquity);
+    
+  });
 });
 
 module.exports = router;
