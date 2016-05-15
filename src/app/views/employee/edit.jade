@@ -5,29 +5,31 @@ block content
         form.col.s12(action="/employee/edit/#{employee._id}" method="post")
             .row
                 .input-field.col.s6
-                    input(type="text" id="name" name="name" class="validate" value="#{employee.name}")
+                    input(type="text" id="name" name="name" class="validate" value="#{employee.name}" required)
                     label(for="name") Name
                 .input-field.col.s6
-                    input(type="text" id="lastName" name="lastName" value="#{employee.lastName}" class="validate")
+                    input(type="text" id="lastName" name="lastName" value="#{employee.lastName}" class="validate" required)
                     label(for="lastName") Last Name
                 .input-field.col.s6
-                    input(type="text" id="secondLastName" name="secondLastName" value="#{employee.secondLastName}" class="validate")
+                    input(type="text" id="secondLastName" name="secondLastName" value="#{employee.secondLastName}" class="validate" required)
                     label(for="secondLastName") Second Last Name
                 .input-field.col.s6
-                    input(type="text" id="RFC" name="RFC" value="#{employee.RFC}" class="validate")
+                    input(type="text" id="RFC" name="RFC" value="#{employee.RFC}" class="validate" required)
                     label(for="RFC") RFC
                 .input-field.col.s6
-                    input(type="text" id="socialSecurityNumber" name="socialSecurityNumber" value="#{employee.socialSecurityNumber}" class="validate")
+                    input(type="text" id="socialSecurityNumber" name="socialSecurityNumber" value="#{employee.socialSecurityNumber}" class="validate" required)
                     label(for="socialSecurityNumber") Social Security Number
                 .input-field.col.s6
-                    input(type="text" id="dailySalary" name="dailySalary" value="#{employee.dailySalary}" class="validate")
+                    input(type="text" id="dailySalary" name="dailySalary" value="#{employee.dailySalary}" class="validate" required)
                     label(for="dailySalary") Daily Salary
                 .input-field.col.s6
-                    input(type="date"  id="hiringDate" name="hiringDate" value="#{employee.hiringDate}" class=" datepicker validate")
+                    input(type="date"  id="hiringDate" name="hiringDate" value="#{employee.hiringDate}" class=" datepicker validate" required)
                     label(for="hiringDate") Hiring Date
                 .input-field.col.s6
-                    input(type="text" id="workingDays" name="workingDays" value="#{employee.workingDays}" class="validate")
-                    label(for="workingDays") Working Days
+                    select( id="workingDays" name="workingDays" class="validate" required)
+                        option(value=7 selected=7==employee.workingDays) Weekly
+                        option(value=14 selected=14==employee.workingDays) Biweekly
+                        option(value=30 selected=30==employee.workingDays) Monthly
                 //.input-field.col.s6
                 //    select(required name="department")
                 //        option(value="" class="disabled selected") Seleccione un departamento

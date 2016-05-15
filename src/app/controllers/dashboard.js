@@ -5,8 +5,14 @@ var express = require('express');
 var router = express.Router();
 var assert= require("assert");
 var employeesDAO= require("../models/dao/EmployeesDAO");
-var commonOperations = require("../utils/CommonOperations");
+var commonOperations = require("../utils/ImssPayment");
 var moment= require("moment");
+var pdf = require('phantom-html2pdf');
+var jade = require("jade");
+var escape=require("escape-html");
+var htmlToPdf=require("html-to-pdf");
+var conversion = require("phantom-html-to-pdf")();
+var calculatePay= require("../utils/CalculatePay");
 
 router.get("/",function(req,res,next){
   "use strict";
@@ -22,13 +28,16 @@ router.get("/",function(req,res,next){
 router.post("/",function(req,res,next){
   "use strict";
   var employeeId=req.body.employee;
-  var absences= req.body.absences;
+  var absences= parseInt(req.body.absences);
   employeesDAO.findById(employeeId,function (error, employee){
     if(error) res.send(error);
-    var employeeAntiquity= (moment().subtract(employee.hiringDate.getFullYear(),"years")).year() ;
-    var isr =commonOperations.calculateISR(employee.workingDays,employee.dailySalary,employeeAntiquity,absences);
-    var imss =commonOperations.calculateIMSS(employee.dailySalary,employee.workingDays,absences,employeeAntiquity);
-    
+    var htmlToPdf= calculatePay.calculatePay(employee,absences,employee.dailySalary,employee.workingDays);
+
+    conversion({ html: htmlToPdf }, function(err, pdf) {
+      console.log(pdf.logs);
+      console.log(pdf.numberOfPages);
+      pdf.stream.pipe(res);
+    });
   });
 });
 

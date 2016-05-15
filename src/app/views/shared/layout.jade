@@ -9,10 +9,14 @@ html
       nav.blue
         .nav-wrapper
           a(href="/dashboard" class="brand-logo center") ISR Tax Calculator
-          ul.right.hide-on-med-and-down
-            li
-              a(href='/employee')
-                i.material-icons perm_identity
+          if !login
+            ul.right.hide-on-med-and-down
+              li
+                a(href='/employee')
+                  i.material-icons perm_identity
+              li
+                a(href='/logout') Logout
+
     .section
       block content
     script(src="/jquery/dist/jquery.min.js")

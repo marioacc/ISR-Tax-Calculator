@@ -5,29 +5,31 @@ block content
         form.col.s12(action="/employee" method="post")
             .row
                 .input-field.col.s6
-                    input(type="text" id="name" name="name" class="validate")
+                    input(type="text" id="name" name="name" class="validate" required)
                     label(for="name") Name
                 .input-field.col.s6
-                    input(type="text" id="lastName" name="lastName" class="validate")
+                    input(type="text" id="lastName" name="lastName" class="validate" required)
                     label(for="lastName") Last Name
                 .input-field.col.s6
-                    input(type="text" id="secondLastName" name="secondLastName" class="validate")
+                    input(type="text" id="secondLastName" name="secondLastName" class="validate" required)
                     label(for="secondLastName") Second Last Name
                 .input-field.col.s6
-                    input(type="text" id="RFC" name="RFC" class="validate")
+                    input(type="text" id="RFC" name="RFC" class="validate" required)
                     label(for="RFC") RFC
                 .input-field.col.s6
-                    input(type="text" id="socialSecurityNumber" name="socialSecurityNumber" class="validate")
+                    input(type="number" id="socialSecurityNumber" name="socialSecurityNumber" class="validate" required)
                     label(for="socialSecurityNumber") Social Security Number
                 .input-field.col.s6
-                    input(type="text" id="dailySalary" name="dailySalary" class="validate")
+                    input(type="number"   step="any" min="1" id="dailySalary" name="dailySalary" class="validate" required)
                     label(for="dailySalary") Daily Salary
                 .input-field.col.s6
-                    input(type="date"  id="hiringDate" name="hiringDate" class=" datepicker validate")
+                    input(type="date"   id="hiringDate" name="hiringDate" class=" datepicker validate" required)
                     label(for="hiringDate") Hiring Date
                 .input-field.col.s6
-                    input(type="text" id="workingDays" name="workingDays" class="validate")
-                    label(for="workingDays") Working Days
+                    select( id="workingDays" name="workingDays" class="validate" required)
+                        option(value=7) Weekly
+                        option(value=14) Biweekly
+                        option(value=30) Monthly
                 //.input-field.col.s6
                 //    select(required name="department")
                 //        option(value="" class="disabled selected") Seleccione un departamento

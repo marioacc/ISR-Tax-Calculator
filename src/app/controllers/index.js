@@ -7,9 +7,14 @@ router.get('/', function(req, res, next) {
   if(req.cookies.isSigned){
     res.redirect('/dashboard');
   }else{
-    res.render("index",{});
+    res.render("index",{login:true});
   }
 
+});
+
+router.get("/logout", function (req, res, next) {
+  res.clearCookie("isSigned");
+  res.redirect("/");
 });
 
 router.post("/", function (req, res, next){

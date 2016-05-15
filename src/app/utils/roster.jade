@@ -1,0 +1,273 @@
+//
+   Created by mario on 5/11/2016.
+doctype html
+html
+    head
+        style.
+            .section {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+            table {
+                width: 100%;
+                display: table;
+            }
+
+            table.bordered > thead > tr,
+            table.bordered > tbody > tr {
+                border-bottom: 1px solid #d0d0d0;
+            }
+
+            table.striped > tbody > tr:nth-child(odd) {
+                background-color: #f2f2f2;
+            }
+
+            table.striped > tbody > tr > td {
+                border-radius: 0;
+            }
+
+            table.highlight > tbody > tr {
+                transition: background-color .25s ease;
+            }
+
+            table.highlight > tbody > tr:hover {
+                background-color: #f2f2f2;
+            }
+
+            table.centered thead tr th, table.centered tbody tr td {
+                text-align: center;
+            }
+
+            thead {
+                border-bottom: 1px solid #d0d0d0;
+            }
+
+            td, th {
+                padding: 15px 5px;
+                display: table-cell;
+                text-align: left;
+                vertical-align: middle;
+                border-radius: 2px;
+            }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+            td,
+            th {
+                padding: 0;
+            }
+
+            html {
+                box-sizing: border-box;
+            }
+
+            *, *:before, *:after {
+                box-sizing: inherit;
+            }
+            html {
+                font-family: sans-serif;
+                /* 1 */
+                -ms-text-size-adjust: 100%;
+                /* 2 */
+                -webkit-text-size-adjust: 100%;
+                /* 2 */
+            }
+            h1, h2, h3, h4, h5, h6 {
+                font-weight: 400;
+                line-height: 1.1;
+            }
+
+            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+                font-weight: inherit;
+            }
+
+            h1 {
+                font-size: 4.2rem;
+                line-height: 110%;
+                margin: 2.1rem 0 1.68rem 0;
+            }
+
+            h2 {
+                font-size: 3.56rem;
+                line-height: 110%;
+                margin: 1.78rem 0 1.424rem 0;
+            }
+
+            h3 {
+                font-size: 2.92rem;
+                line-height: 110%;
+                margin: 1.46rem 0 1.168rem 0;
+            }
+
+            h4 {
+                font-size: 2.28rem;
+                line-height: 110%;
+                margin: 1.14rem 0 0.912rem 0;
+            }
+
+            h5 {
+                font-size: 1.64rem;
+                line-height: 110%;
+                margin: 0.82rem 0 0.656rem 0;
+            }
+
+            h6 {
+                font-size: 1rem;
+                line-height: 110%;
+                margin: 0.5rem 0 0.4rem 0;
+            }
+
+            .center, .center-align {
+                text-align: center;
+            }
+
+            .left {
+                float: left !important;
+            }
+
+            .right {
+                float: right !important;
+            }
+            .container .row {
+                margin-left: -0.75rem;
+                margin-right: -0.75rem;
+            }
+
+            .row {
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 20px;
+            }
+
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            .row .col {
+                float: left;
+                box-sizing: border-box;
+                padding: 0 0.75rem;
+            }
+
+            .row .col[class*="push-"], .row .col[class*="pull-"] {
+                position: relative;
+            }
+
+            .row .col.s1 {
+                width: 8.3333333333%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s2 {
+                width: 16.6666666667%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s3 {
+                width: 25%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s4 {
+                width: 33.3333333333%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s5 {
+                width: 41.6666666667%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s6 {
+                width: 50%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s7 {
+                width: 58.3333333333%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s8 {
+                width: 66.6666666667%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s9 {
+                width: 75%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s10 {
+                width: 83.3333333333%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s11 {
+                width: 91.6666666667%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+            .row .col.s12 {
+                width: 100%;
+                margin-left: auto;
+                left: auto;
+                right: auto;
+            }
+
+    body
+        .section
+            .row
+                .col.s12.center-align
+                    h3 Roster
+                .col.s12.center-align
+                    h4 #{employee.name+" "+employee.lastName+" "+employee.secondLastName}
+                .col.s6.left
+                    p RFC
+                .col.s6.left
+                    p #{employee.RFC}
+                .col.s6.left
+                    p SSN
+                .col.s6.left
+                    p #{employee.socialSecurityNumber}
+                table.centered
+                    thead
+                        tr
+                            th Salary
+                            th ISR
+                            th IMSS
+                            th Total
+                    tbody
+                        tr
+                            td $#{netPay}
+                            td $#{ISR}
+                            td $#{IMSS}
+                            td $#{total}
+        script(src="/jquery/dist/jquery.min.js")
+        script(src="/Materialize/dist/js/materialize.min.js")
